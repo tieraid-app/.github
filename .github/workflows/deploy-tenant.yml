@@ -3,7 +3,7 @@ name: Tieraid deploy tenant workflow
 on:
   workflow_call:
     inputs:
-      backend_url:
+      backend-url:
         required: true
         type: string
 
