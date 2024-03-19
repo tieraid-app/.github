@@ -1,6 +1,6 @@
 {
-  "name": "Tieraid deploy tenant workflow",
-  "description": "Common workflow to deploy a tenant in Tieraid universe",
+  "name": "Tieraid tenant sync workflow",
+  "description": "Common workflow to sync tenant in Tieraid universe",
   "iconName": "workflow",
   "categories": ["React"],
   "filePatterns": ["package.json$"]
