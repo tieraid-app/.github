@@ -26,13 +26,13 @@ jobs:
         id: tenant
         uses: fjogeleit/http-request-action@v1
         with:
-          url: ${{ input.backend_url }}/tenant/info/
+          url: ${{ input.backend-url }}/tenant/info/
           method: "GET"
 
       - name: Setup environment variables
         run: |
           cat << EOF > .env.production
-          VITE_BACKEND_URL=${{ inputs.backend_url }}
+          VITE_BACKEND_URL=${{ inputs.backend-url }}
           VITE_COMPANY_NAME=${{fromJson(steps.tenant.outputs.response).name}}
           VITE_WEBSITE_NAME=${{fromJson(steps.tenant.outputs.response).name}} | Powered by Tieraid
           EOF
