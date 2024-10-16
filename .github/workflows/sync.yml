@@ -26,17 +26,15 @@ jobs:
         with:
           url: ${{ inputs.backend-url }}/tenant/info/
           method: "GET"
-      - name: Get and temporarily set SHA
-        id: vars
+          
+      - name: Set build hash
         run: |
-          calculatedSha=$(git rev-parse --short ${{ github.sha }})
-          echo "COMMIT_SHORT_SHA=$calculatedSha" >> $GITHUB_ENV
-      - name: Confirm git commit SHA output
-        run: echo ${{ env.COMMIT_SHORT_SHA }}
+            echo "BUILD_HASH=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+
       - name: Setup environment variables
         run: |
           cat << EOF > .env.production
-          VITE_FRONTEND_BUILD_HASH=${{ echo "$(git rev-parse --short HEAD)"}}
+          VITE_FRONTEND_BUILD_HASH=${{ env.BUILD_HASH }}
           VITE_BACKEND_URL=${{ inputs.backend-url }}
           VITE_COMPANY_NAME=${{fromJson(steps.tenant.outputs.response).name}}
           VITE_WEBSITE_NAME=${{fromJson(steps.tenant.outputs.response).name}} | Powered by Tieraid
