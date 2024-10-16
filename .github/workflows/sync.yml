@@ -19,7 +19,7 @@ jobs:
           repository: tieraid-app/tieraid-app-frontend
           ref: main
           ssh-key: ${{ secrets.CLONE_FRONTEND_KEY }}
-
+      
       - name: Fetch tenant information
         id: tenant
         uses: fjogeleit/http-request-action@v1
@@ -30,6 +30,7 @@ jobs:
       - name: Setup environment variables
         run: |
           cat << EOF > .env.production
+          VITE_FRONTEND_BUILD_HASH=$(git rev-parse --short HEAD)
           VITE_BACKEND_URL=${{ inputs.backend-url }}
           VITE_COMPANY_NAME=${{fromJson(steps.tenant.outputs.response).name}}
           VITE_WEBSITE_NAME=${{fromJson(steps.tenant.outputs.response).name}} | Powered by Tieraid
