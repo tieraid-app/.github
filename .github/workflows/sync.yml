@@ -38,6 +38,8 @@ jobs:
           VITE_BACKEND_URL=${{ inputs.backend-url }}
           VITE_COMPANY_NAME=${{fromJson(steps.tenant.outputs.response).name}}
           VITE_WEBSITE_NAME=${{fromJson(steps.tenant.outputs.response).name}} | Powered by Tieraid
+          VITE_WEBSITE_DEFAULT_LANG=${{fromJson(steps.tenant.outputs.response).knows_language}}
+          VITE_WEBSITE_AVAILABLE_LANGS=${{join(fromJson(steps.tenant.outputs.response).available_languages, ',')}}
           EOF
 
       - name: Install dependencies
