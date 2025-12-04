@@ -19,14 +19,12 @@ jobs:
           repository: tieraid-app/tieraid-app-frontend
           ref: main
           ssh-key: ${{ secrets.CLONE_FRONTEND_KEY }}
-      
       - name: Fetch tenant information
         id: tenant
         uses: fjogeleit/http-request-action@v1
         with:
           url: ${{ inputs.backend-url }}/tenant/info/
           method: "GET"
-          
       - name: Set build hash
         run: |
             echo "BUILD_HASH=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
@@ -41,14 +39,16 @@ jobs:
           VITE_WEBSITE_DEFAULT_LANG=${{fromJson(steps.tenant.outputs.response).knows_language}}
           VITE_WEBSITE_AVAILABLE_LANGS=${{join(fromJson(steps.tenant.outputs.response).available_languages, ',')}}
           EOF
-
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
       - name: Install dependencies
         run: |
-          npm ci
+            pnpm install --frozen-lockfile
 
       - name: Test and build
         run: |
-          npm run build
+            pnpm run build
 
       - name: Deploy to GitHub Pages
         if: success()
